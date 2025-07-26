@@ -2,6 +2,9 @@
 
 **Bigvox**은 한국어 음성 인식에 특화된 고성능, 저지연 음성 언어 멀티모달 모델입니다. [kakaocorp/kanana-1.5-2.1b-instruct-2505](https://huggingface.co/kakaocorp/kanana-1.5-2.1b-instruct-2505) 기반으로 구축되었습니다. 🚀
 
+<img width="1082" height="191" alt="img" src="https://github.com/user-attachments/assets/3b89660f-73b7-43a0-8562-197961265b49" />
+
+
 ### 📂 모델 접근
 - **GitHub**: [bigdefence/bigvox-kanana](https://github.com/bigdefence/bigvox-kanana) 🌐
 - **HuggingFace**: [bigdefence/bigvox-kanana-s2t](https://huggingface.co/bigdefence/bigvox-kanana-s2t) 🤗
