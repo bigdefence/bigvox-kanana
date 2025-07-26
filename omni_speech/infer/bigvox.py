@@ -1,4 +1,5 @@
 import torch
+from transformers import TextStreamer
 from omni_speech.model.builder import load_pretrained_model
 from omni_speech.datasets.preprocess import preprocess_kanana
 import whisper
@@ -56,8 +57,9 @@ class BigVoxModel:
         speech_length = speech_length.to(device='cuda', non_blocking=True)
         
         # 모델 추론
+        streamer = TextStreamer(self.tokenizer, skip_prompt=True, skip_special_tokens=True)
         with torch.inference_mode():
-            outputs = self.model.generate(
+            self.model.generate(
                 input_ids,
                 speech=speech_tensor,
                 speech_lengths=speech_length,
@@ -68,15 +70,11 @@ class BigVoxModel:
                 max_new_tokens=self.max_new_tokens,
                 use_cache=True,
                 pad_token_id=128001,
+                streamer=streamer,
             )
-            output_ids = outputs
+        # 결과 반환 (스트리밍이므로 빈 dict 반환 또는 다른 방식 필요)
+        return {}
 
-            # 텍스트 디코딩
-            output_text = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)[0].strip()
-
-        # 결과 반환
-        result = {"text": output_text.strip()}
-        return result
 
 if __name__ == "__main__":
     # 명령줄 인자 파싱
@@ -91,5 +89,4 @@ if __name__ == "__main__":
     # 모델 초기화 및 추론
     bigvox = BigVoxModel(BIGVOX_MODEL)
     bigvox.__initilize__()
-    response = bigvox.__call__(audio_messages)
-    print(response)
+    bigvox(audio_messages)
