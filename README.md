@@ -1,4 +1,4 @@
-## 🎧 Bigvox
+# 🎧 Bigvox-kanana
 
 **Bigvox**은 한국어 음성 인식에 특화된 고성능, 저지연 음성 언어 멀티모달 모델입니다. [kakaocorp/kanana-1.5-2.1b-instruct-2505](https://huggingface.co/kakaocorp/kanana-1.5-2.1b-instruct-2505) 기반으로 구축되었습니다. 🚀
 
