@@ -1,13 +1,13 @@
-# 🎧 Bigvox-kanana
+# 🎧 Bigvox
 
 **Bigvox**은 한국어 음성 인식에 특화된 고성능, 저지연 음성 언어 멀티모달 모델입니다. [kakaocorp/kanana-1.5-2.1b-instruct-2505](https://huggingface.co/kakaocorp/kanana-1.5-2.1b-instruct-2505) 기반으로 구축되었습니다. 🚀
 
-<img width="1082" height="191" alt="img" src="https://github.com/user-attachments/assets/3b89660f-73b7-43a0-8562-197961265b49" />
 
+![image/png](https://cdn-uploads.huggingface.co/production/uploads/653494138bde2fae198fe89e/a0AnyMjHULgrpO_UKSKgY.png)
 
 ### 📂 모델 접근
 - **GitHub**: [bigdefence/bigvox-kanana](https://github.com/bigdefence/bigvox-kanana) 🌐
-- **HuggingFace**: [bigdefence/bigvox-kanana-s2t](https://huggingface.co/bigdefence/bigvox-kanana-s2t) 🤗
+- **HuggingFace**: [bigdefence/Bigvox-Kanana-Audio](https://huggingface.co/bigdefence/Bigvox-Kanana-Audio) 🤗
 - **모델 크기**: 2B 파라미터 📊
 
 ## 🌟 주요 특징
@@ -47,7 +47,7 @@
 **Huggingface CLI 사용**:
 ```bash
 pip install -U huggingface_hub
-huggingface-cli download bigdefence/bigvox-kanana-s2t --local-dir ./checkpoints
+huggingface-cli download bigdefence/Bigvox-Kanana-Audio --local-dir ./checkpoints
 ```
 
 **Snapshot Download 사용**:
@@ -57,7 +57,7 @@ pip install -U huggingface_hub
 ```python
 from huggingface_hub import snapshot_download
 snapshot_download(
-  repo_id="bigdefence/bigvox-kanana-s2t",
+  repo_id="bigdefence/Bigvox-Kanana-Audio",
   local_dir="./checkpoints",
   resume_download=True
 )
@@ -66,7 +66,7 @@ snapshot_download(
 **Git 사용**:
 ```bash
 git lfs install
-git clone https://huggingface.co/bigdefence/bigvox-kanana-s2t
+git clone https://huggingface.co/bigdefence/Bigvox-Kanana-Audio
 ```
 
 ### 🛠️ 의존성 모델
@@ -77,7 +77,7 @@ git clone https://huggingface.co/bigdefence/bigvox-kanana-s2t
 **Bigvox**으로 추론을 수행하려면 다음 단계를 따라 모델을 설정하고 로컬에서 실행하세요. 📡
 
 1. **모델 준비**:
-   - [HuggingFace](https://huggingface.co/bigdefence/bigvox-kanana-s2t)에서 **Bigvox** 다운로드 📦
+   - [HuggingFace](https://huggingface.co/bigdefence/Bigvox-Kanana-Audio)에서 **Bigvox** 다운로드 📦
    - [HuggingFace](https://huggingface.co/openai/whisper-large-v3)에서 **Whisper-large-v3** 음성 인코더를 다운로드하여 `./models/speech_encoder/` 디렉토리에 배치 🎤
 
 2. **추론 실행**:
