@@ -39,16 +39,7 @@
 
 2. **의존성 설치**:
    ```bash
-   pip install --upgrade pip
-   conda install pytorch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 pytorch-cuda=12.1 -c pytorch -c nvidia
-   pip install transformers huggingface_hub
-   ```
-
-3. **선택사항: 훈련 패키지 설치**:
-   모델 훈련을 계획한다면 추가 패키지를 설치하세요:
-   ```bash
-   pip install accelerate datasets
-   pip install flash-attn --no-build-isolation
+   bash setting.sh
    ```
 
 ### 📥 다운로드 방법
