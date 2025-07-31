@@ -1,5 +1,5 @@
 import torch
-from transformers import TextStreamer
+import numpy as np
 from omni_speech.model.builder import load_pretrained_model
 from omni_speech.datasets.preprocess import preprocess_kanana
 import whisper
@@ -15,16 +15,15 @@ class BigVoxModel:
         self.empty = True
 
         # 생성 매개변수
-        self.temperature = kwargs.get('temperature', 0)
+        self.temperature = kwargs.get('temperature', 0.0)
         self.num_beams = kwargs.get('num_beams', 1)
         self.max_new_tokens = kwargs.get('max_new_tokens', 512)
         self.top_p = kwargs.get('top_p', 0.1)
 
-    def __initilize__(self):
+    def __initialize__(self):
         """모델과 토크나이저 로드"""
         if self.empty:
             self.empty = False
-            # s2s=False로 설정하여 s2t 전용 모델 로드
             self.tokenizer, self.model, _ = load_pretrained_model(self.model_name_or_path, s2s=False)
 
     def __call__(self, messages: list) -> dict:
@@ -47,6 +46,7 @@ class BigVoxModel:
             speech_length = torch.LongTensor([speech_length])
         
         # 대화 형식으로 입력 준비
+        # The chat template expects a list of dicts with "role" and "content".
         conversation = [{"from": "human", "value": "<speech>", "path": f"{audio_path}"}]
         input_ids = preprocess_kanana([conversation], self.tokenizer, True, 4096)['input_ids']
         input_ids = torch.cat([input_ids.squeeze(), torch.tensor([128006, 78191, 128007, 271], device=input_ids.device)]).unsqueeze(0)
@@ -57,9 +57,8 @@ class BigVoxModel:
         speech_length = speech_length.to(device='cuda', non_blocking=True)
         
         # 모델 추론
-        streamer = TextStreamer(self.tokenizer, skip_prompt=True, skip_special_tokens=True)
         with torch.inference_mode():
-            self.model.generate(
+            outputs = self.model.generate(
                 input_ids,
                 speech=speech_tensor,
                 speech_lengths=speech_length,
@@ -70,11 +69,10 @@ class BigVoxModel:
                 max_new_tokens=self.max_new_tokens,
                 use_cache=True,
                 pad_token_id=128001,
-                streamer=streamer,
             )
-        # 결과 반환 (스트리밍이므로 빈 dict 반환 또는 다른 방식 필요)
-        return {}
-
+            output_text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0].strip()
+        result = {'text': output_text}
+        return result
 
 if __name__ == "__main__":
     # 명령줄 인자 파싱
@@ -88,5 +86,6 @@ if __name__ == "__main__":
     
     # 모델 초기화 및 추론
     bigvox = BigVoxModel(BIGVOX_MODEL)
-    bigvox.__initilize__()
-    bigvox(audio_messages)
+    bigvox.__initialize__()
+    response = bigvox.__call__(audio_messages)
+    print(response)
